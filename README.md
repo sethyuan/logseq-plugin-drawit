@@ -13,6 +13,9 @@
 
 ## 使用展示
 
+https://github.com/sethyuan/logseq-plugin-drawit/assets/3410293/bbd739e9-e606-4c13-8282-d22800002989
+
+
 ## Buy me a coffee
 
 如果您认为我所开发的软件对您有所帮助，并且愿意给予肯定和支持，不妨扫描下方的二维码进行打赏。感谢您的支持与关注。
