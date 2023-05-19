@@ -13,6 +13,9 @@ Simple SD WebUI frontend for Logseq.
 
 ## Usage
 
+https://github.com/sethyuan/logseq-plugin-drawit/assets/3410293/bbd739e9-e606-4c13-8282-d22800002989
+
+
 ## Buy me a coffee
 
 If you think the software I have developed is helpful to you and would like to give recognition and support, you may buy me a coffee using following link. Thank you for your support and attention.
