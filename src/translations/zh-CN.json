@@ -1,3 +1,11 @@
 {
+  "Shortcut that triggers drawing.": "触发生图的快捷键。",
+  "API host.": "API域名。",
+  "Prefix that's added to all prompts.": "添加在所有提示词前面的前缀。",
+  "Negative prompt.": "反向提示词",
+  "Sampler to use.": "采样器",
+  "Steps.": "步数",
+  "Image width.": "图片宽度",
+  "Image height.": "图片高度",
   "Draw It": "画出来"
 }
