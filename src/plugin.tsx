@@ -7,6 +7,7 @@ import { t2i } from "./libs/api"
 import zhCN from "./translations/zh-CN.json"
 
 let lastResult: string | undefined = ""
+let lastPrompt = ""
 
 async function main() {
   await setup({ builtinTranslations: { "zh-CN": zhCN } })
@@ -93,6 +94,30 @@ function provideStyles() {
   logseq.provideStyle({
     key: "kef-drawit",
     style: `
+    .kef-drawit-preview {
+      position: relative;
+    }
+    .kef-drawit-toolbar {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: var(--ls-primary-background-color);
+      padding: 0.3em 0.5em;
+      box-shadow: 0 0 6px 0 var(--ls-block-bullet-color);
+      display: flex;
+      align-items: center;
+    }
+    .kef-drawit-toolbar-btn {
+      margin-right: 0.9em;
+      font-size: 0.75em;
+      opacity: 0.8;
+    }
+    .kef-drawit-toolbar-btn:last-child {
+      margin-right: 0;
+    }
+    .kef-drawit-toolbar-btn:hover {
+      opacity: 1;
+    }
     `,
   })
 }
@@ -101,14 +126,38 @@ async function drawIt() {
   if (lastResult == null) return
   lastResult = undefined
   try {
-    const prompt = await logseq.Editor.getEditingBlockContent()
+    const block = await logseq.Editor.getCurrentBlock()
+    if (block == null) return
+    const hasRenderer = block.content.includes("\n{{renderer :drawit}}")
+    const prompt = hasRenderer
+      ? block.content.replace("\n{{renderer :drawit}}", "")
+      : block.content
     const t2iPromise = t2i(prompt)
-    await logseq.Editor.insertAtEditingCursor("\n{{renderer :drawit}}")
+    if (!hasRenderer) {
+      await logseq.Editor.insertAtEditingCursor("\n{{renderer :drawit}}")
+    } else {
+      renderPreview(block.uuid)
+    }
     await logseq.Editor.exitEditingMode()
     const [ok, image] = await t2iPromise
     if (!ok) return
     lastResult = image
-    renderPreview()
+    lastPrompt = prompt
+    renderPreview(block.uuid)
+  } catch (err) {
+    lastResult = ""
+  }
+}
+
+async function redrawIt(uuid: string) {
+  if (lastResult == null) return
+  lastResult = undefined
+  try {
+    renderPreview(uuid)
+    const [ok, image] = await t2i(lastPrompt)
+    if (!ok) return
+    lastResult = image
+    renderPreview(uuid)
   } catch (err) {
     lastResult = ""
   }
@@ -116,8 +165,8 @@ async function drawIt() {
 
 function previewRenderer({
   slot,
-  payload: { arguments: args },
-}: UISlotIdentity & { payload: { arguments: string[] } }) {
+  payload: { arguments: args, uuid },
+}: UISlotIdentity & { payload: { arguments: string[]; uuid: string } }) {
   if (args[0] !== ":drawit") return
 
   const slotEl = parent.document.getElementById(slot)
@@ -128,17 +177,20 @@ function previewRenderer({
   logseq.provideUI({
     key: `drawit`,
     slot,
-    template: `<div id="kef-drawit-preview" class="kef-drawit-preview"></div>`,
+    template: `<div id="kef-drawit-preview"></div>`,
     reset: true,
   })
 
-  setTimeout(renderPreview, 0)
+  setTimeout(() => renderPreview(uuid), 0)
 }
 
-function renderPreview() {
+function renderPreview(uuid: string) {
   const el = parent.document.getElementById("kef-drawit-preview")
   if (el == null) return
-  render(<Preview image={lastResult} />, el)
+  render(
+    <Preview image={lastResult} blockUUID={uuid} redrawIt={redrawIt} />,
+    el,
+  )
 }
 
 logseq.ready(main).catch(console.error)
