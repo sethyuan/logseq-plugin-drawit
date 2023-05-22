@@ -2,7 +2,7 @@
 
 # logseq-plugin-days
 
-Simple SD WebUI frontend for Logseq.
+Simple Stable Diffusion WebUI frontend for Logseq.
 
 ## Feature Highlights
 
@@ -10,11 +10,17 @@ Simple SD WebUI frontend for Logseq.
 - The basic parameters can be set in the plug-in configuration.
 - You can regenerate again if you're not satisfied with the generated image.
 - Insert the satisfied image into Logseq.
+- Shortcut key for txt2img.
 
 ## Usage
 
 https://github.com/sethyuan/logseq-plugin-drawit/assets/3410293/bbd739e9-e606-4c13-8282-d22800002989
 
+## Preparations
+
+1. You must ensure that you have access to your Stable Diffusion WebUI (Automatic1111), either locally or remotely. The address for local access is usually `http://127.0.0.1:7860`, for remote access you need to add the `---listen` startup argument, you can refer to your own integration package documentation for details. You can access the WebUI from other machines after enabling `--listen`, but an extra VPN setup may be required if you want to access your machine across networks.
+1. Make sure the API function is enabled, also specified by the startup argument, `--api`.
+1. Optionally turn on the startup argument `-enable-insecure-extension-access`, otherwise you can't install plugins in WebUI during remote access.
 
 ## Buy me a coffee
 

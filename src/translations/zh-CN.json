@@ -1,6 +1,6 @@
 {
   "Shortcut that triggers drawing.": "触发生图的快捷键。",
-  "API host.": "API域名。",
+  "API host. Do not append a '/' at the end.": "API域名。不要在末尾添加 '/'。",
   "Prefix that's added to all prompts.": "添加在所有提示词前面的前缀。",
   "Negative prompt.": "反向提示词",
   "Sampler to use.": "采样器",

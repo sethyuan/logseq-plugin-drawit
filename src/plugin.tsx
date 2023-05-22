@@ -27,7 +27,7 @@ async function main() {
       title: "",
       type: "string",
       default: "http://127.0.0.1:7860",
-      description: t("API host."),
+      description: t("API host. Do not append a '/' at the end."),
     },
     {
       key: "promptPrefix",
