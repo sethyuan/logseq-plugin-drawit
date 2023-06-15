@@ -1,6 +1,6 @@
 [中文](README.md) | English
 
-# logseq-plugin-days
+# logseq-plugin-drawit
 
 Simple Stable Diffusion WebUI frontend for Logseq.
 
